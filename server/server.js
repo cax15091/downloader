@@ -12,14 +12,6 @@ const YTDLP_PATH = process.env.YTDLP_PATH || path.join(SERVER_DIR, 'yt-dlp.exe')
 const hasFfmpeg = fs.existsSync(FFMPEG_PATH);
 const hasYtDlp = fs.existsSync(YTDLP_PATH);
 
-// Verificar existencia de herramientas
-if (!fs.existsSync(FFMPEG_PATH)) {
-    console.warn('ADVERTENCIA: No se encuentra ffmpeg en la ruta configurada.');
-}
-if (!fs.existsSync(YTDLP_PATH)) {
-    console.warn('ADVERTENCIA: No se encuentra yt-dlp en la ruta configurada.');
-}
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
