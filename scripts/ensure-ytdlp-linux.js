@@ -6,8 +6,9 @@ if (process.platform !== 'linux') {
   process.exit(0);
 }
 
-const outputDir = path.join(__dirname, '..', 'node_modules', 'yt-dlp-exec', 'bin');
+const outputDir = path.join(__dirname, '..', 'api', 'bin');
 const outputPath = path.join(outputDir, 'yt-dlp_linux');
+const ffmpegOutputPath = path.join(outputDir, 'ffmpeg');
 
 function get(url, headers = {}) {
   return new Promise((resolve, reject) => {
@@ -46,6 +47,13 @@ async function main() {
   const binary = await get(asset.browser_download_url);
   fs.writeFileSync(outputPath, binary, { mode: 0o755 });
   fs.chmodSync(outputPath, 0o755);
+
+  const ffmpegPath = require('ffmpeg-static');
+  if (ffmpegPath && fs.existsSync(ffmpegPath)) {
+    fs.copyFileSync(ffmpegPath, ffmpegOutputPath);
+    fs.chmodSync(ffmpegOutputPath, 0o755);
+  }
+
   console.log(`Installed yt-dlp Linux binary at ${outputPath}`);
 }
 

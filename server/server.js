@@ -9,14 +9,17 @@ const { execFile } = require('child_process');
 const SERVER_DIR = __dirname;
 const LOCAL_FFMPEG_PATH = path.join(SERVER_DIR, 'ffmpeg.exe');
 const LOCAL_YTDLP_PATH = path.join(SERVER_DIR, 'yt-dlp.exe');
-const FFMPEG_PATH = process.env.FFMPEG_PATH || (fs.existsSync(LOCAL_FFMPEG_PATH) ? LOCAL_FFMPEG_PATH : require('ffmpeg-static'));
+const VERCEL_BIN_DIR = path.join(SERVER_DIR, '..', 'api', 'bin');
+const VERCEL_FFMPEG_PATH = path.join(VERCEL_BIN_DIR, 'ffmpeg');
+const VERCEL_YTDLP_PATH = path.join(VERCEL_BIN_DIR, 'yt-dlp_linux');
+const FFMPEG_PATH = process.env.FFMPEG_PATH || (fs.existsSync(LOCAL_FFMPEG_PATH) ? LOCAL_FFMPEG_PATH : fs.existsSync(VERCEL_FFMPEG_PATH) ? VERCEL_FFMPEG_PATH : require('ffmpeg-static'));
 const PACKAGE_YTDLP_DIR = path.join(path.dirname(require.resolve('yt-dlp-exec')), '..', 'bin');
 const PACKAGE_YTDLP_PATHS = [
     path.join(PACKAGE_YTDLP_DIR, 'yt-dlp_linux'),
     path.join(PACKAGE_YTDLP_DIR, process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp')
 ];
 const PACKAGE_YTDLP_PATH = PACKAGE_YTDLP_PATHS.find(filePath => fs.existsSync(filePath));
-const YTDLP_PATH = process.env.YTDLP_PATH || (fs.existsSync(LOCAL_YTDLP_PATH) ? LOCAL_YTDLP_PATH : PACKAGE_YTDLP_PATH);
+const YTDLP_PATH = process.env.YTDLP_PATH || (fs.existsSync(LOCAL_YTDLP_PATH) ? LOCAL_YTDLP_PATH : fs.existsSync(VERCEL_YTDLP_PATH) ? VERCEL_YTDLP_PATH : PACKAGE_YTDLP_PATH);
 const hasFfmpeg = Boolean(FFMPEG_PATH && fs.existsSync(FFMPEG_PATH));
 const hasYtDlp = Boolean(YTDLP_PATH && fs.existsSync(YTDLP_PATH));
 
