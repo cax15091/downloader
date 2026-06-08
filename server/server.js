@@ -9,13 +9,15 @@ const { execFile } = require('child_process');
 const SERVER_DIR = __dirname;
 const FFMPEG_PATH = process.env.FFMPEG_PATH || path.join(SERVER_DIR, 'ffmpeg.exe');
 const YTDLP_PATH = process.env.YTDLP_PATH || path.join(SERVER_DIR, 'yt-dlp.exe');
+const hasFfmpeg = fs.existsSync(FFMPEG_PATH);
+const hasYtDlp = fs.existsSync(YTDLP_PATH);
 
 // Verificar existencia de herramientas
 if (!fs.existsSync(FFMPEG_PATH)) {
-    console.error('ERROR CRÍTICO: No se encuentra ffmpeg.exe en la carpeta server/');
+    console.warn('ADVERTENCIA: No se encuentra ffmpeg en la ruta configurada.');
 }
 if (!fs.existsSync(YTDLP_PATH)) {
-    console.error('ERROR CRÍTICO: No se encuentra yt-dlp.exe en la carpeta server/.');
+    console.warn('ADVERTENCIA: No se encuentra yt-dlp en la ruta configurada.');
 }
 
 const app = express();
@@ -55,6 +57,7 @@ function runYtDlp(args) {
 app.post('/api/analyze', async (req, res) => {
     const { url } = req.body;
     if (!url) return res.status(400).json({ error: 'URL requerida' });
+    if (!hasYtDlp) return res.status(503).json({ error: 'yt-dlp no esta disponible en este entorno.' });
 
     try {
         // Obtenemos información en formato JSON
@@ -90,6 +93,8 @@ app.post('/api/analyze', async (req, res) => {
 // 2. Descargar y Procesar
 app.post('/api/download', async (req, res) => {
     const { url, removeMetadata } = req.body;
+    if (!hasYtDlp) return res.status(503).json({ error: 'yt-dlp no esta disponible en este entorno.' });
+    if (removeMetadata && !hasFfmpeg) return res.status(503).json({ error: 'ffmpeg no esta disponible en este entorno.' });
     const fileId = uuidv4();
     
     const tempFilePath = path.join(TEMP_DIR, `${fileId}.mp4`);
