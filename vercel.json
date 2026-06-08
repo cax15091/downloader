@@ -2,10 +2,7 @@
   "version": 2,
   "functions": {
     "api/index.js": {
-      "includeFiles": [
-        "node_modules/yt-dlp-exec/bin/**",
-        "node_modules/ffmpeg-static/**"
-      ]
+      "includeFiles": "{node_modules/yt-dlp-exec/bin/**,node_modules/ffmpeg-static/**}"
     }
   },
   "rewrites": [
