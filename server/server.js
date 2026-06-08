@@ -10,7 +10,7 @@ const SERVER_DIR = __dirname;
 const LOCAL_FFMPEG_PATH = path.join(SERVER_DIR, 'ffmpeg.exe');
 const LOCAL_YTDLP_PATH = path.join(SERVER_DIR, 'yt-dlp.exe');
 const FFMPEG_PATH = process.env.FFMPEG_PATH || (fs.existsSync(LOCAL_FFMPEG_PATH) ? LOCAL_FFMPEG_PATH : require('ffmpeg-static'));
-const PACKAGE_YTDLP_DIR = path.join(path.dirname(require.resolve('yt-dlp-exec/package.json')), 'bin');
+const PACKAGE_YTDLP_DIR = path.join(path.dirname(require.resolve('yt-dlp-exec')), '..', 'bin');
 const PACKAGE_YTDLP_PATHS = [
     path.join(PACKAGE_YTDLP_DIR, 'yt-dlp_linux'),
     path.join(PACKAGE_YTDLP_DIR, process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp')
