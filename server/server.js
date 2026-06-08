@@ -21,9 +21,9 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Directorio temporal
-const TEMP_DIR = path.join(SERVER_DIR, 'temp');
+const TEMP_DIR = process.env.TEMP_DIR || (process.env.VERCEL ? path.join('/tmp', 'video-downloader') : path.join(SERVER_DIR, 'temp'));
 if (!fs.existsSync(TEMP_DIR)) {
-    fs.mkdirSync(TEMP_DIR);
+    fs.mkdirSync(TEMP_DIR, { recursive: true });
 }
 
 // --- FUNCIONES AUXILIARES PARA YT-DLP ---
