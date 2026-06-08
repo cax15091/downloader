@@ -10,9 +10,15 @@ const SERVER_DIR = __dirname;
 const LOCAL_FFMPEG_PATH = path.join(SERVER_DIR, 'ffmpeg.exe');
 const LOCAL_YTDLP_PATH = path.join(SERVER_DIR, 'yt-dlp.exe');
 const FFMPEG_PATH = process.env.FFMPEG_PATH || (fs.existsSync(LOCAL_FFMPEG_PATH) ? LOCAL_FFMPEG_PATH : require('ffmpeg-static'));
-const YTDLP_PATH = process.env.YTDLP_PATH || (fs.existsSync(LOCAL_YTDLP_PATH) ? LOCAL_YTDLP_PATH : require('yt-dlp-exec/src/constants').YOUTUBE_DL_PATH);
-const hasFfmpeg = fs.existsSync(FFMPEG_PATH);
-const hasYtDlp = fs.existsSync(YTDLP_PATH);
+const PACKAGE_YTDLP_DIR = path.join(path.dirname(require.resolve('yt-dlp-exec/package.json')), 'bin');
+const PACKAGE_YTDLP_PATHS = [
+    path.join(PACKAGE_YTDLP_DIR, 'yt-dlp_linux'),
+    path.join(PACKAGE_YTDLP_DIR, process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp')
+];
+const PACKAGE_YTDLP_PATH = PACKAGE_YTDLP_PATHS.find(filePath => fs.existsSync(filePath));
+const YTDLP_PATH = process.env.YTDLP_PATH || (fs.existsSync(LOCAL_YTDLP_PATH) ? LOCAL_YTDLP_PATH : PACKAGE_YTDLP_PATH);
+const hasFfmpeg = Boolean(FFMPEG_PATH && fs.existsSync(FFMPEG_PATH));
+const hasYtDlp = Boolean(YTDLP_PATH && fs.existsSync(YTDLP_PATH));
 
 const app = express();
 const PORT = process.env.PORT || 3000;

@@ -5,7 +5,8 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "node server/server.js"
+    "dev": "node server/server.js",
+    "postinstall": "node scripts/ensure-ytdlp-linux.js"
   },
   "dependencies": {
     "axios": "^1.17.0",
