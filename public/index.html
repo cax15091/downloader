@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader Pro | Autónomo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-cloud-arrow-down"></i> Video Downloader Pro</h1>
+            <p>Descarga videos de TikTok, Instagram y X sin marcas de agua ni metadatos.</p>
+        </header>
+
+        <main class="card glass">
+            <div class="input-group">
+                <i class="fa-solid fa-link input-icon"></i>
+                <input type="text" id="videoUrl" placeholder="Pega la URL del video aquí..." autocomplete="off">
+                <button id="analyzeBtn" class="btn-primary">
+                    <span>Analizar</span>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <div id="loadingSection" class="hidden">
+                <div class="spinner"></div>
+                <p>Analizando video...</p>
+            </div>
+
+            <div id="previewSection" class="hidden">
+                <div class="preview-content">
+                    <img id="thumbnail" src="" alt="Miniatura">
+                    <div class="video-info">
+                        <h3 id="videoTitle">Título del Video</h3>
+                        <div class="meta-tags">
+                            <span id="platformTag" class="tag">Plataforma</span>
+                            <span id="durationTag" class="tag"><i class="fa-regular fa-clock"></i> <span id="duration">00:00</span></span>
+                            <span id="qualityTag" class="tag"><i class="fa-solid fa-high-definition"></i> <span id="quality">HD</span></span>
+                            <span id="sizeTag" class="tag"><i class="fa-solid fa-database"></i> <span id="size">0 MB</span></span>
+                        </div>
+                    </div>
+                </div>
+                <button id="downloadBtn" class="btn-success">
+                    <i class="fa-solid fa-download"></i> Descargar Video
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Opciones -->
+    <div id="metadataModal" class="modal hidden">
+        <div class="modal-content glass">
+            <h2>Opciones de Descarga</h2>
+            <p class="modal-question">¿Deseas eliminar todos los metadatos de este video antes de descargarlo?</p>
+            <p class="modal-subtext">Esto eliminará información de ubicación, fecha de creación y datos del dispositivo.</p>
+            
+            <div class="modal-actions">
+                <button id="btnCleanDownload" class="btn-option clean">
+                    <i class="fa-solid fa-shield-halved"></i> Sí, eliminar metadatos
+                </button>
+                <button id="btnOriginalDownload" class="btn-option original">
+                    <i class="fa-regular fa-file-video"></i> No, descargar original
+                </button>
+            </div>
+            <button id="closeModal" class="btn-text">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMessage">Operación exitosa</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
