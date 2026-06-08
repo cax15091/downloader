@@ -7,8 +7,10 @@ const { execFile } = require('child_process');
 
 // Configuración de Rutas de Ejecutables (Autónomo)
 const SERVER_DIR = __dirname;
-const FFMPEG_PATH = process.env.FFMPEG_PATH || path.join(SERVER_DIR, 'ffmpeg.exe');
-const YTDLP_PATH = process.env.YTDLP_PATH || path.join(SERVER_DIR, 'yt-dlp.exe');
+const LOCAL_FFMPEG_PATH = path.join(SERVER_DIR, 'ffmpeg.exe');
+const LOCAL_YTDLP_PATH = path.join(SERVER_DIR, 'yt-dlp.exe');
+const FFMPEG_PATH = process.env.FFMPEG_PATH || (fs.existsSync(LOCAL_FFMPEG_PATH) ? LOCAL_FFMPEG_PATH : require('ffmpeg-static'));
+const YTDLP_PATH = process.env.YTDLP_PATH || (fs.existsSync(LOCAL_YTDLP_PATH) ? LOCAL_YTDLP_PATH : require('yt-dlp-exec/src/constants').YOUTUBE_DL_PATH);
 const hasFfmpeg = fs.existsSync(FFMPEG_PATH);
 const hasYtDlp = fs.existsSync(YTDLP_PATH);
 
